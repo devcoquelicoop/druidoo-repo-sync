@@ -1,0 +1,3 @@
+druidoo/druidoo-addons 12.0,13.0
+druidoo/enterprise-addons 12.0,13.0
+# druidoo/druidoo-bot-test-repository 12.0
