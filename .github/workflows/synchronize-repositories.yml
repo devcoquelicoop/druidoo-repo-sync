@@ -1,4 +1,4 @@
-name: Odoo Addon Generate Readme
+name: Synchronize maintainer files to target repositories
 
 on: push
 
