@@ -42,6 +42,20 @@ def clone_repository(repository, branch, dest='~'):
     return dest
 
 
+def commit_if_needed(paths, message, add=True):
+    if add:
+        cmd = ['git', 'add'] + paths
+        subprocess.check_call(cmd)
+    cmd = ['git', 'diff', '--quiet', '--exit-code', '--cached', '--'] + paths
+    r = subprocess.call(cmd)
+    if r != 0:
+        cmd = ['git', 'commit', '-m', message, '--'] + paths
+        subprocess.check_call(cmd)
+        return True
+    else:
+        return False
+
+
 def sync_repository(repository, branch):
     cwd = os.getcwd()
     local_clone_path = clone_repository(repository, branch)
@@ -52,11 +66,12 @@ def sync_repository(repository, branch):
     if os.path.isdir(branch):
         subprocess.check_call([
             'cp', '-ra', '%s/.' % branch, local_clone_path])
+    # commit and push
     os.chdir(local_clone_path)
-    subprocess.check_call(['git', 'add', '.'])
-    subprocess.check_call(['git', 'commit', '-m', '[UPD] Github Workflows'])
-    subprocess.check_call(['git', 'push'])
+    if commit_if_needed(['.'], '[UPD] Github Workflows'):
+        subprocess.check_call(['git', 'push'])
     os.chdir(cwd)
+    # cleanup
     shutil.rmtree(local_clone_path)
 
 
