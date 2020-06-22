@@ -22,8 +22,6 @@ jobs:
         BOT_GITHUB_USER: ${{ secrets.BOT_GITHUB_USER }}
         BOT_GITHUB_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
       run: |
-        ls
-        pwd
         git config --global user.email ${{ secrets.BOT_GITHUB_EMAIL }}
         git config --global user.name ${{ secrets.BOT_GITHUB_USER }}
         ./sync-repositories.py
